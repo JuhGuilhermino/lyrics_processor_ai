@@ -4,10 +4,10 @@ import re              # Limpar texto
 import time            # Controla o tempo de execução para evitar o bloqueio da API
 
 
-GENIUS_API_KEY = "vV29NExJODiDian1SndARe00ZHcfNO6GK_v6826tKBsD2M5_mrspb66HNx1p-D7TBINQZq3ttiNEOG5gcb8baQ"
+GENIUS_API_KEY = "kEml8x3ZF1xNdrhcU_LjcWaMKQq2JmguXcUkkZrKwxEhMrOJGnYu4DQahDQRheQ8"
 genius = lyricsgenius.Genius(GENIUS_API_KEY, timeout=15, retries=3)
 
-# Leitura da lista de música a serem pesquisadas
+# Leitura da lista de músicas a serem pesquisadas e formata dados ára consulta na API
 def read_file(path):
     songs = []
     
@@ -26,78 +26,76 @@ def read_file(path):
     
     return songs
 
-"""
-def clean_lyrics(texto):
-    if not texto:
-        return ""
+# Buscar música na API
+def search_lyrics(list):
+    data = []
     
-    # remove [Chorus], [Verse], etc
-    texto = re.sub(r"\[.*?\]", "", texto)
-    
-    # remove lixo comum do Genius
-    texto = re.sub(r"You might also like.*", "", texto)
-    
-    # remove quebras de linha
-    texto = texto.replace("\n", " ")
-    
-    # lowercase
-    texto = texto.lower()
-    
-    # remove espaços extras
-    texto = re.sub(r"\s+", " ", texto)
-    
-    return texto.strip()
-
-def search_lyrics(lista_musicas):
-    dados = []
-    
-    for titulo, artista in lista_musicas:
-        print(f"Buscando: {titulo} - {artista}")
+    for title, artist in list:
+        print(f"Buscando: {title} - {artist}")
         
         try:
-            song = genius.search_song(titulo, artista)
+            song = genius.search_song(title, artist)
             
             if song and song.lyrics:
-                letra_limpa = limpar_letra(song.lyrics)
+                lyrics = clean_lyrics(song.lyrics)
                 
-                dados.append({
-                    "artist": artista,
-                    "title": titulo,
-                    "lyrics": letra_limpa
+                data.append({
+                    "artist": artist,
+                    "title": title,
+                    "lyrics": lyrics
                 })
             else:
-                print(f"❌ Não encontrada: {titulo}")
+                print(f"[ERRO]: Música {title} não encontrada")
         
         except Exception as e:
-            print(f"Erro em {titulo}: {e}")
+            print(f"Erro em {title}: {e}")
         
         time.sleep(1)  # evita bloqueio da API
     
-    return dados
+    return data
 
+# Padronização da letra da música
+def clean_lyrics(text):
+    if not text:
+        return ""
+    
+    text = re.sub(r"\[.*?\]", "", text)
+    text = re.sub(r"You /might also like.*", "", text)
+    text = text.lower()
+    #text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"\n\s*\n+", "\n", text)
+    
+    return text.strip()
 
-def save_data(dados):
-    df = pd.DataFrame(dados)
+# Salvar dados em um dataset
+def save_data(data):
+    df = pd.DataFrame(data)
     
     # salvar CSV
-    df.to_csv("data/lyrics_dataset.csv", index=False)
-    
-    # salvar JSON
-    df.to_json("data/lyrics_dataset.json", orient="records", indent=2)
-    
-    print("✅ Dataset salvo em /data")
-"""
+    df.to_csv("data/test.csv", index=False)
+
 
 def main():
-    file_path = "data/songs_list.txt"
+    file_path = "data/test.txt"
     
     list = read_file(file_path)
-    #data = search_lyrics(list)
-    #save_data(data)
+    data = search_lyrics(list)
+    save_data(data)
 
-    for i in list:
-        print(i)
+    #for i in list:
+    #    print(i)
 
+    #print(data[0])
+
+    
+    # teste da chave da API
+    #song = genius.search_song("Yellow", "Coldplay")
+    #lyrics = clean_lyrics(song.lyrics)
+    #if song:
+    #    print(lyrics)
+    #else:
+    #    print("ERRO")
+    
 
 if __name__ == "__main__":
     main()
