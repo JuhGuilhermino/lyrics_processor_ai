@@ -20,7 +20,8 @@ def main():
     mask = create_mask(tokens)
 
     # PASSO 4: definir grau de dificuldade das palavras
-    final_mask = classify_difficulty(tokens, mask)
+    mask2 = classify_difficulty(tokens, mask)
+    final_mask = "\n".join("".join(map(str, row)) for row in mask2)  
 
     # PASSO 5: salvar mascara
     dataset = []
@@ -32,17 +33,17 @@ def main():
             "lyrics": data.iloc[0]["lyrics"],
             "mask": final_mask
         })
-        
+     
 
-    #df = pd.DataFrame(dataset)
+    df = pd.DataFrame(dataset)
 
-    #df.to_csv("data/test_with_mask.csv", index=False)
+    df.to_csv("data/test_with_mask.csv", index=False)
 
-    s = "\n".join("".join(map(str, row)) for row in final_mask)
+    
     
     # TESTES RÁPIDOS
-    for i in lyrics, s:
-        print(i)
+    #for i in lyrics, s:
+    #    print(i)
 
 
 
