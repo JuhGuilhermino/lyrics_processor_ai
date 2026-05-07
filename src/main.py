@@ -4,48 +4,45 @@ from create_mask import create_mask
 from classify_difficulty import classify_difficulty
 
 import pandas as pd
-import json
 
 def main():
-    data = pd.read_csv("data/test.csv", nrows=1)
-    lyrics = data.iloc[0]["lyrics"]
+    data = pd.read_csv("data/songs_list.csv")
 
-    # PASSO 1: classificar letra
-    category, score = categorize(lyrics)
-
-    # PASSO 2: tokenizar versos
-    tokens = tokenizer(lyrics)
-
-    # PASSO 3: difinir laculas
-    mask = create_mask(tokens)
-
-    # PASSO 4: definir grau de dificuldade das palavras
-    mask2 = classify_difficulty(tokens, mask)
-    final_mask = "\n".join("".join(map(str, row)) for row in mask2)  
-
-    # PASSO 5: salvar mascara
     dataset = []
-    dataset.append({
-            "artist": data.iloc[0]["artist"],
-            "title": data.iloc[0]["title"],
+
+    for _, row in data.iterrows():
+        lyrics = row["lyrics"]
+
+        # PASSO 1: classificar letra
+        category, score = categorize(lyrics)
+
+        # PASSO 2: tokenizar versos
+        tokens = tokenizer(lyrics)
+
+        # PASSO 3: criar máscara base
+        mask = create_mask(tokens)
+
+        # PASSO 4: dificuldade das palavras
+        mask2 = classify_difficulty(tokens, mask)
+
+        # transforma em string
+        final_mask = "\n".join(
+            "".join(map(str, line)) for line in mask2
+        )
+
+        # PASSO 5: salvar
+        dataset.append({
+            "artist": row["artist"],
+            "title": row["title"],
             "category": category,
             "category_score": score,
-            "lyrics": data.iloc[0]["lyrics"],
+            "lyrics": lyrics,
             "mask": final_mask
         })
-     
+
 
     df = pd.DataFrame(dataset)
-
-    df.to_csv("data/test_with_mask.csv", index=False)
-
-    
-    
-    # TESTES RÁPIDOS
-    #for i in lyrics, s:
-    #    print(i)
-
-
+    df.to_csv("data/lyrics.csv", index=False)
 
 if __name__ == "__main__":
     main()

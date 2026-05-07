@@ -72,11 +72,11 @@ def save_data(data):
     df = pd.DataFrame(data)
     
     # salvar CSV
-    df.to_csv("data/test.csv", index=False)
+    df.to_csv("data/songs_list.csv", index=False)
 
 
 def main():
-    file_path = "data/test.txt"
+    file_path = "data/songs_list.txt"
     
     list = read_file(file_path)
     data = search_lyrics(list)

@@ -1,7 +1,7 @@
 from sentence_transformers import SentenceTransformer, util
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
-categories = ["study", "work", "travel"]
+categories = ["study", "leisure", "travel"]
 emb_categories = model.encode(categories, convert_to_tensor=True)
 
 
