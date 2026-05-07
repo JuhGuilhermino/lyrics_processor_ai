@@ -34,18 +34,15 @@ def main():
         })
         
 
-    df = pd.DataFrame(dataset)
+    #df = pd.DataFrame(dataset)
 
-    df.to_csv("data/test_with_mask.csv", index=False)
+    #df.to_csv("data/test_with_mask.csv", index=False)
+
+    s = "\n".join("".join(map(str, row)) for row in final_mask)
     
     # TESTES RÁPIDOS
-    #print (category);
-    #print (score);
-    #for i in tokens:
-    #    print(i)
-    #
-    #for i in final_mask:
-    #    print(i)
+    for i in lyrics, s:
+        print(i)
 
 
 
