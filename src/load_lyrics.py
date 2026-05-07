@@ -4,7 +4,7 @@ import re              # Limpar texto
 import time            # Controla o tempo de execução para evitar o bloqueio da API
 
 
-GENIUS_API_KEY = "kEml8x3ZF1xNdrhcU_LjcWaMKQq2JmguXcUkkZrKwxEhMrOJGnYu4DQahDQRheQ8"
+GENIUS_API_KEY = "SUA_CHAVE"
 genius = lyricsgenius.Genius(GENIUS_API_KEY, timeout=15, retries=3)
 
 # Leitura da lista de músicas a serem pesquisadas e formata dados ára consulta na API

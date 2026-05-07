@@ -1,6 +1,5 @@
 from wordfreq import zipf_frequency
 
-
 def classify_difficulty(tokens, mask):
     classified_mask = []
 
