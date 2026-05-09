@@ -1,6 +1,6 @@
 # Lyrics Dataset Generator with NLP e ML
 Este projeto foi desenvolvido por Júlia Guilhermino para disiciplina DIM0162 - Engenharia de Software, no ano de 2026.
-O objetivo era gerar a base de dados para oum sistema de aprendizado de inglês com música, chamado [LyricsFlow](https://github.com/raquelcnsanjos/lyricsflow-backend). Dada uma letra de entrada, esse programa gera uma máscara que será usada como gabarito para as atividades do sistema e consequêntemente nas demais funcionalidades.
+O objetivo era gerar a base de dados para oum sistema de aprendizado de inglês com música, chamado [LyricsFlow](https://github.com/JuhGuilhermino/lyricsflow_backend). Dada uma letra de entrada, esse programa gera uma máscara que será usada como gabarito para as atividades do sistema e consequêntemente nas demais funcionalidades.
 
 ## Funcionalidades
 1. Coletar de forma automática letras de música, usando a [Genius API](https://docs.genius.com/#/resources-h1)
